@@ -20,10 +20,10 @@ export class AppController {
     this.logger.log('[+] endpoint /hello - getHello()');
     this.logger.log('headers received are:', headers);
 
-    const response = await fetch('http://localhost:3002');
+    const response = await fetch('http://localhost:3002/world');
     const worldText = await response.text();
 
-    return res.send('Hello' + worldText);
+    return res.send('Hello ' + worldText);
   }
 
   @Get('world')
