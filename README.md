@@ -1,3 +1,4 @@
+# bug-report-otel-nestjs
 
 ## Description
 
@@ -29,4 +30,3 @@ The app is composed of 3 GET endpoints:
 - GET `/hello`: calls the `/world` endpoint and return a combinaison of results
 - GET `/world`: return a simple string.
 
-# bug-report-otel-nestjs
