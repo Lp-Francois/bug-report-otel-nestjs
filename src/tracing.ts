@@ -12,6 +12,7 @@ import {
   W3CTraceContextPropagator,
   W3CBaggagePropagator,
 } from '@opentelemetry/core';
+import { PinoInstrumentation } from '@opentelemetry/instrumentation-pino'
 import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
@@ -35,13 +36,22 @@ const otelSDK = new NodeSDK({
     // new HttpInstrumentation(),
     // new ExpressInstrumentation(),
     // new NestInstrumentation(),
+    new PinoInstrumentation({
+      // Log span context under custom keys
+      // This is optional, and will default to "trace_id", "span_id" and "trace_flags" as the keys
+      logKeys: {
+        traceId: 'traceId',
+        spanId: 'spanId',
+        traceFlags: 'traceFlags',
+      },
+    }),
     getNodeAutoInstrumentations({
       '@opentelemetry/instrumentation-fs': { enabled: false },
       '@opentelemetry/instrumentation-aws-lambda': { enabled: false },
       '@opentelemetry/instrumentation-net': { enabled: false },
     }),
   ],
-  // pass a ton of propagators, hopping to get at least one in the answer 😁
+  // pass a ton of propagators, hopping to get at least one working
   textMapPropagator: new CompositePropagator({
     propagators: [
       new W3CTraceContextPropagator(),
